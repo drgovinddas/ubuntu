@@ -1,0 +1,534 @@
+				####STEP 1#### [BECOME ROOT USER & INSTALL UPDATES]
+
+sudo -i
+
+passwd
+
+sudo apt update && sudo apt upgrade -y
+
+sudo apt install curl 
+
+sudo timedatectl set-timezone Europe/London
+
+				####STEP 2####  [INSTALL APACHE 2]
+
+sudo apt install apache2 -y
+
+				####STEP 3####   [SETUP FIREWALL]
+
+sudo ufw app list
+
+*************************
+Output
+Available applications:
+   Apache
+   Apache Full
+   Apache Secure
+   OpenSSH
+*************************
+sudo ufw allow 'Apache Full'
+
+sudo ufw allow 'OpenSSH'
+
+sudo ufw enable   (disrupt ma yes karvu)
+
+sudo ufw status
+
+*******************************************************
+Output
+Status: active
+ To                         Action      From
+ --                         ------      ----
+ Apache Full                ALLOW       Anywhere                  
+ OpenSSH                    ALLOW       Anywhere                  
+ Apache Full (v6)           ALLOW       Anywhere (v6)             
+ OpenSSH (v6)               ALLOW       Anywhere (v6)
+********************************************************
+
+####STEP 4####   [CHECK APACHE INSTALLATION]
+
+sudo systemctl status apache2
+
+******************************************************************************************
+Output
+● apache2.service - The Apache HTTP Server
+    Loaded: loaded (/lib/systemd/system/apache2.service; enabled; vendor preset: enabled)
+   Drop-In: /lib/systemd/system/apache2.service.d
+            └─apache2-systemd.conf
+    Active: active (running) since Tue 2020-01-06 03:59:34 UTC; 5min ago
+  Main PID: 10617 (apache2)
+     Tasks: 55 (limit: 667)
+    CGroup: /system.slice/apache2.service
+            ├─10617 /usr/sbin/apache2 -k start
+            ├─10619 /usr/sbin/apache2 -k start
+            └─10620 /usr/sbin/apache2 -k start
+ Jan 06 03:59:34 apache systemd[1]: Starting The Apache HTTP Server…
+ Jan 06 03:59:34 apache systemd[1]: Started The Apache HTTP Server.
+*******************************************************************************************
+
+sudo systemctl enable apache2       /						restart
+
+				####STEP 5####  [INSTALL MYSQL]
+
+sudo apt install mysql-server -y
+
+sudo service mysql status
+
+****************************************************************************************
+mysql.service - MySQL Community Server
+     Loaded: loaded (/lib/systemd/system/mysql.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue 2020-05-05 07:13:18 UTC; 1min 4s ago
+   Main PID: 3333 (mysqld)
+     Status: "Server is operational"
+      Tasks: 38 (limit: 2010)
+     Memory: 322.9M
+     CGroup: /system.slice/mysql.service
+             └─3333 /usr/sbin/mysqld 
+****************************************************************************************
+
+sudo systemctl enable mysql
+
+				####STEP 6####   [SECURE MYSQL]
+
+sudo mysql_secure_installation
+
+Enter
+
+0
+[enter password]
+[re-type password]
+
+y
+
+y
+
+y
+
+				####STEP 7####   [INSTALL PHP]
+
+//aws ubuntu ma first line chale chee, pan php old 7.4 j ave chee, dharar thi install karva mate https://awswithatiq.com/how-to-install-php-8-on-aws-ec2-instance///      sudo add-apt-repository ppa:ondrej/php     sudo apt-get install php8.0 -y    sudo systemctl restart apache2     php -v
+
+##below two lines are just backup copy-0 dont use them//
+
+sudo apt install php libapache2-mod-php php-mysql php-common php-mysql php-xml php-xmlrpc php-curl php-gd php-imagick php-cli php-dev php-imap php-mbstring php-opcache php-soap php-zip php-intl -y 
+
+sudo apt install apache2 ghostscript libapache2-mod-php mysql-server php php-bcmath php-curl php-imagick php-intl php-json php-mbstring php-mysql php-xml php-zip
+
+
+// parth and me merged together/// 
+
+sudo apt install     apache2     ghostscript    libapache2-mod-php    mysql-server    php 	php-bcmath 	php-curl 	php-imagick 	php-intl 	php-json 	php-mbstring 	php-mysql 	php-xml 	php-zip 	php-common  	php-gd  	php-cli 	php-dev 	php-imap 	php-opcache 	php-soap  -y
+
+
+#//(when you don't write version, it will by default take latest php)
+
+
+php -v
+
+sudo apt install wget unzip -y
+
+sudo apt install php-bz2 php-json -y    
+
+				####STEP 8####   [CONFIGURE PHP]
+
+sudo nano /etc/php/8.0/apache2/php.ini  (version je hoy te lakhvu 8.0 ne badle)
+
+PRESS "F6"
+
+****[CHANGE THE VALUE AS BELOW]****
+
+*************************************
+upload_max_filesize = 32M 
+post_max_size = 48M 
+memory_limit = 256M 
+max_execution_time = 600 
+max_input_vars = 3000 
+max_input_time = 1000
+************************************
+****CTRL O= SAVE THE CHANGES, ctrl x exit****
+
+sudo systemctl restart apache2
+
+***********************************************
+YOUR LAMP STACK IS READY!!!! :)
+
+				####STEP 9####   [Download Wordpress]
+
+wget https://wordpress.org/latest.zip
+
+unzip latest.zip
+
+				####STEP 10####     [Create Site Databases and Users]
+
+mysql -u root -p     /have thi badhu mysql> ma avse,  -p vagar chale
+
+CREATE DATABASE mwcoin;
+
+CREATE DATABASE mwcom;
+
+CREATE DATABASE govcom;
+
+CREATE DATABASE avhmcorg;
+
+SHOW DATABASES;                            for delete only  ---->            ******DROP DATABASE database_name;*********
+
+CREATE USER 'mwcoinuser'@'localhost' IDENTIFIED BY 'mwcoinpass';
+
+CREATE USER 'mwcomuser'@'localhost' IDENTIFIED BY 'mwcompass';
+
+CREATE USER 'govcomuser'@'localhost' IDENTIFIED BY 'govcompass';
+
+CREATE USER 'avhmcorguser'@'localhost' IDENTIFIED BY 'avhmcorgpass';
+
+SELECT User,Host,Plugin FROM mysql.user;                             for delete only  --->            *******DROP USER 'database_user'@'localhost';*********
+
+GRANT ALL PRIVILEGES ON mwcoin.* TO 'mwcoinuser'@'localhost';
+
+GRANT ALL PRIVILEGES ON mwcom.* TO 'mwcomuser'@'localhost';
+
+GRANT ALL PRIVILEGES ON govcom.* TO 'govcomuser'@'localhost';
+
+GRANT ALL PRIVILEGES ON avhmcorg.* TO 'avhmcorguser'@'localhost';
+
+FLUSH PRIVILEGES;
+
+exit
+				####STEP 11####  don't risk it- unless sure- jya \ muki e badhu ek sathe thase-tested ok below[Configuring Site Root Directories]
+
+cd /var/www
+
+sudo mkdir mwcoin
+
+sudo mkdir mwcom
+
+sudo mkdir govcom
+
+sudo mkdir avhmcorg
+
+cp ~/wordpress/wp-config-sample.php ~/wordpress/wp-config.php
+
+sudo rsync -avP ~/wordpress/ /var/www/mwcoin/
+
+sudo rsync -avP ~/wordpress/ /var/www/mwcom/
+
+sudo rsync -avP ~/wordpress/ /var/www/govcom/
+
+sudo rsync -avP ~/wordpress/ /var/www/avhmcorg/
+
+sudo chown www-data:www-data * -R
+
+sudo usermod -a -G www-data root
+
+				####STEP 12###
+		(A) [First Site Configuration]
+
+cd /var/www/mwcoin
+
+sudo nano wp-config.php
+
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+
+
+define('DB_NAME', 'mwcoin');
+
+/** MySQL database username */
+define('DB_USER', 'mwcoinuser');
+
+/** MySQL database password */
+define('DB_PASSWORD', 'mwcoinpass');
+
+define( 'WP_MEMORY_LIMIT', '512M' );  [past this line just above the line that says ‘That’s all, stop editing! Publishing.’]
+
+@ini_set('upload_max_size' , '256M' );  (if in aws, upload size error comes, then only do this)
+
+Save and exit
+
+		(B) [Second Site Configuration]
+
+cd /var/www/mwcom
+
+sudo nano wp-config.php
+
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+
+
+define('DB_NAME', 'mwcom');
+
+/** MySQL database username */
+define('DB_USER', 'mwcomuser');
+
+/** MySQL database password */
+define('DB_PASSWORD', 'mwcompass');
+
+define( 'WP_MEMORY_LIMIT', '512M' );             [past this line just above the line that says ‘That’s all, stop editing! Publishing.’]
+
+Save and exit
+
+		(C) [third Site Configuration]
+
+cd /var/www/govcom
+
+sudo nano wp-config.php
+
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+
+define('DB_NAME', 'govcom');
+
+/** MySQL database username */
+define('DB_USER', 'govcomuser');
+
+/** MySQL database password */
+define('DB_PASSWORD', 'govcompass');
+
+define( 'WP_MEMORY_LIMIT', '512M' );             [past this line just above the line that says ‘That’s all, stop editing! Publishing.’]
+
+Save and exit
+
+		(D) [Fourth Site Configuration]
+
+cd /var/www/avhmcorg 
+
+sudo nano wp-config.php
+
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database for WordPress */
+
+define('DB_NAME', 'avhmcorg');
+
+/** MySQL database username */
+define('DB_USER', 'avhmcorguser');
+
+/** MySQL database password */
+define('DB_PASSWORD', 'avhmcorgpass');
+
+define( 'WP_MEMORY_LIMIT', '512M' );             [past this line just above the line that says ‘That’s all, stop editing! Publishing.’]
+
+Save and exit
+
+				####STEP 13####    [Apache Virtual Host Configuration]
+
+cd /etc/apache2/sites-available
+
+				####STEP 14####    [First Site Virtual Host Configuration]
+
+sudo nano mwcoin.conf
+
+<VirtualHost *:80>
+	ServerAdmin admin@mediwiki.co.in
+	ServerName mediwiki.co.in
+	ServerAlias www.mediwiki.co.in
+	
+	DocumentRoot /var/www/mwcoin
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/mwcoin>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+     ErrorLog ${APACHE_LOG_DIR}/error.log 
+     CustomLog ${APACHE_LOG_DIR}/access.log combined 
+ </VirtualHost>
+
+				####STEP 15####    [Second Site Virtual Host Configuration]
+
+sudo nano mwcom.conf
+
+<VirtualHost *:80>
+	ServerAdmin admin@medi-wiki.com
+	ServerName medi-wiki.com
+	ServerAlias www.medi-wiki.com
+	
+	DocumentRoot /var/www/mwcom
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/mwcom>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+     ErrorLog ${APACHE_LOG_DIR}/error.log 
+     CustomLog ${APACHE_LOG_DIR}/access.log combined 
+ </VirtualHost>
+
+				####STEP 16####    [Third Site Virtual Host Configuration]
+
+sudo nano govcom.conf
+
+<VirtualHost *:80>
+	ServerAdmin admin@govinddas.com
+	ServerName govinddas.com
+	ServerAlias www.govinddas.com
+	
+	DocumentRoot /var/www/govcom
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/govcom>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+     ErrorLog ${APACHE_LOG_DIR}/error.log 
+     CustomLog ${APACHE_LOG_DIR}/access.log combined 
+ </VirtualHost>
+ 
+				####STEP 17####    [Fourth Site Virtual Host Configuration]
+
+sudo nano avhmcorg.conf
+
+<VirtualHost *:80>
+	ServerAdmin admin@avhmc.org
+	ServerName avhmc.org
+	ServerAlias www.avhmc.org
+	
+	DocumentRoot /var/www/avhmcorg	
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/avhmcorg>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride None
+		Order allow,deny
+		allow from all
+	</Directory>
+     ErrorLog ${APACHE_LOG_DIR}/error.log 
+     CustomLog ${APACHE_LOG_DIR}/access.log combined 
+ </VirtualHost>
+
+				####STEP 16####   [Final Configuration]
+
+sudo a2ensite mwcoin.conf 
+
+sudo a2ensite mwcom.conf 
+
+sudo a2ensite govcom.conf 
+
+sudo a2ensite avhmcorg.conf 
+
+sudo service apache2 reload   (andar thi avu kidhu-    systemctl reload apache2      ## restart is preferred 
+
+*****************************************END***********************************
+https://technoracle.com/how-to-setup-ftp-on-aws-ec2-ubuntu-instance/
+
+///shloka.dhingu ma tested ok successful//
+
+sudo apt-get install vsftpd
+
+sudo nano /etc/vsftpd.conf
+
+Make the following edits
+
+Enable listening for IPV4
+listen=YES
+#listen_ipv6=YES
+Disable anonymous access
+anonymous_enable=no
+Permit any form of FTP write command
+write_enable=YES
+Make sure PORT transfer connections originate from port 20 (ftp-data) by uncommenting this line
+connect_from_port_20=YES
+Add the following lines at the end of file. These lines are required to enable passive access, which means a client can now initiate a connection to the server. The public IP address of the server is also required here.
+The final lines specify the file valid user names
+
+//aws shloka ip-inelastic yet//
+
+pasv_enable=YES
+pasv_min_port=1024
+pasv_max_port=1048
+pasv_address=18.208.165.22              
+port_enable=YES
+userlist_enable=YES
+userlist_file=/etc/vsftpd.userlist
+userlist_deny=NO   					//save and exit//  
+
+
+//contabo ip valu paste//
+
+pasv_enable=YES
+pasv_min_port=1024
+pasv_max_port=1048
+pasv_address=207.180.244.50    
+port_enable=YES
+userlist_enable=YES
+userlist_file=/etc/vsftpd.userlist
+userlist_deny=NO
+
+
+sudo adduser ubuntu
+Create the user file list and the new user
+
+echo "ubuntu" | sudo tee -a /etc/vsftpd.userlist
+Restart FTP service so that the new configuration is activated
+
+chmod -R 777 /var/www       (niche thi extra command write access maate rakhyo)
+usermod -d /var/www/ ubuntu 
+sudo service vsftpd start
+
+Your FTP service is now ready for use. You can connect to your FTP server using the command with your public IP address. The default directory will the home of the user, which in this case is /home/aloka
+
+ftp -p <public_ip>
+
+ftp -p 18.208.165.22     //shloka ip//
+
+ftp -p 207.180.244.50      //contabo ip//
+
+***************
+other searched, but not tested https://www.infiflex.com/how-to-configure-ftp-on-an-ec2-instance
+
+https://technoracle.com/how-to-setup-ftp-on-aws-ec2-ubuntu-instance/
+
+
+*****************************************URL forgot to paste here*******
+
+don't do this in pure ubuntu command line- just do following when FTP ACCESS KARVA MATE
+
+sudo apt-get update
+
+sudo apt-get install vsftpd
+
+nano /etc/vsftpd.conf     (may have caused contabo to inaccessible by ssh or vnc both)
+
+# kadhi nakhva   /anonymous ma no karvu https://www.youtube.com/watch?v=n0SCNF31DiQ
+
+pasv_enable=YES
+pasv_min_port=1024
+pasv_max_port=1048
+pasv_address=207.180.244.50      /elastic ip nakhvu/
+
+usermod -d /var/www/ ubuntu           for directory permission ( only if we don't have root permission, not needed in contabo)
+chmod -R 777 /var/www       (select main root)  for download and upload code on server      chmod -R 777 /var
+service apache2 restart
+service vsftpd restart
+
+*************
+
+			[INSTALL LET'S ENCRYPT SSL]- perhaps this caused aws4domains hanging-maybe,dont know yet  /// not required much///
+
+sudo apt install python3-certbot-apache
+
+sudo certbot --apache --agree-tos --redirect -m admin@mediwiki.co.in -d mediwiki.co.in -d www.mediwiki.co.in
+
+sudo certbot --apache --agree-tos --redirect -m admin@medi-wiki.com -d medi-wiki.com -d www.medi-wiki.com
+
+sudo certbot --apache --agree-tos --redirect -m admin@govinddas.com -d govinddas.com -d www.govinddas.com
+
+sudo certbot --apache --agree-tos --redirect -m admin@avhmc.org -d avhmc.org -d www.avhmc.org
+
+			//RENEWING SSL CERTIFICATE   run renew only once, no need for separate renewals test//
+
+sudo certbot renew --dry-run
+
+   [TEST THE SETUP]   go cloudflare
