@@ -31,6 +31,6 @@ wget https://software.virtualmin.com/gpl/scripts/install.sh && sudo /bin/sh inst
 //AAPANEL//
 apt update && apt -y upgrade && apt -y install curl wget sudo
 wget -O install.sh http://www.aapanel.com/script/install-ubuntu_6.0_en.sh && sudo bash install.sh aapanel -y
-////////////
+
     
     
