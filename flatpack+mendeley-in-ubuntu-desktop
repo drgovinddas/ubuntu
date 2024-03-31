@@ -1,0 +1,19 @@
+sudo apt install flatpak
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+sudo reboot
+flatpak install flathub com.usebottles.bottles
+flatpak run com.usebottles.bottles
+flatpak update
+flatpak uninstall com.usebottles.bottles
+
+// mendeley//
+
+mendeley ubuntu
+go to downloads- open cmd there 
+
+wget https://desktop-download.mendeley.com/download/apt/pool/main/m/mendeleydesktop/mendeleydesktop_1.19.4-stable_amd64.deb
+
+sudo dpkg -i mendeleydesktop_1.19.4-stable_amd64.deb
+
+//find shortcut in main menu
+Taken from  https://www.linuxmadesimple.info/2020/09/how-to-install-mendeley-desktop-in.html//
