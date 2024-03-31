@@ -1,0 +1,36 @@
+**************add virtual ram (not compulsory- but for small instance- its necessary***********
+sudo su;
+sudo dd if=/dev/zero of=/swapfile bs=512M count=4;
+sudo chmod 600 /swapfile;
+sudo mkswap /swapfile;
+sudo swapon /swapfile;
+sudo swapon -s
+
+nano /etc/fstab
+Add new line at the end of the file, ctrl O ctrl x, save the file, and then exit:
+/swapfile swap swap defaults 0 0
+
+apt-get update && apt-get upgrade -y;
+reboot
+*****************************
+/before installing any GUI panel, --PERMIT ROOT LOGIN/
+**step 1-***
+sudo nano /etc/ssh/sshd_config 
+(1) If you want to set up “root” ec2 user password, find  “PermitRootLogin” parameter and change its value from “prohibit-password” to “yes“
+(2) uncomment PasswordAuthentication yes         save ctrl O, exit ctrl X
+service ssh restart 
+**STEP 2-  sudo passwd root **             
+  **not needed if using root**
+sudo passwd
+
+apt update && apt -y upgrade && apt -y install curl wget sudo
+(virtualmin script nichewali can't be clubbed with ; commands)
+wget https://software.virtualmin.com/gpl/scripts/install.sh && sudo /bin/sh install.sh -y
+/fqdn maage tyare ready j rakhi aapvu (minimonster.govinddas.com)/
+***********************
+//AAPANEL//
+apt update && apt -y upgrade && apt -y install curl wget sudo
+wget -O install.sh http://www.aapanel.com/script/install-ubuntu_6.0_en.sh && sudo bash install.sh aapanel -y
+////////////
+    
+    
