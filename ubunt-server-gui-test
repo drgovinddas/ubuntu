@@ -1,0 +1,17 @@
+**https://phoenixnap.com/kb/how-to-install-a-gui-on-ubuntu**
+
+apt-get update && apt-get upgrade -y
+sudo apt install slim
+sudo apt install ubuntu-desktop -y
+sudo apt install vanilla-gnome-desktop vanilla-gnome-default-settings -y
+sudo apt update && sudo apt upgrade -y
+reboot
+
+/COPILOT/
+
+sudo apt-get update && sudo apt-get upgrade -y
+sudo apt install tasksel -y
+sudo apt install ubuntu-desktop-minimal -y
+sudo apt install xrdp -y
+sudo ufw allow 3389; sudo ufw reload
+sudo reboot
