@@ -7,7 +7,7 @@ sudo cp /etc/iptables/rules.v4 /etc/iptables/rules.v4.bak && sudo truncate -s 0 
 sudo rm /usr/share/polkit-1/actions/org.freedesktop.color.policy
 sudo passwd ubuntu 
 
-/WORKED ONCE, BUT COULD NOT RE-DO TWICE- MIXING OF BOTH METHODS BELOW/
+/WORKED ONCE(winscp portable client for windows), BUT COULD NOT RE-DO TWICE- MIXING OF BOTH METHODS BELOW/
 **https://phoenixnap.com/kb/how-to-install-a-gui-on-ubuntu**
 
 apt-get update && apt-get upgrade -y
