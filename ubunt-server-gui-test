@@ -1,3 +1,13 @@
+/WORKED ON DRGOVINDDAS TENANCY IN ORACLE CLOUD- offline windows RDP/
+https://www.youtube.com/watch?v=NKc3k7xceT8
+
+sudo apt update && sudo apt upgrade -y
+sudo apt-get install ubuntu-desktop xrdp stacer -y
+sudo cp /etc/iptables/rules.v4 /etc/iptables/rules.v4.bak && sudo truncate -s 0 /etc/iptables/rules.v4
+sudo rm /usr/share/polkit-1/actions/org.freedesktop.color.policy
+sudo passwd ubuntu 
+
+/WORKED ONCE, BUT COULD NOT RE-DO TWICE- MIXING OF BOTH METHODS BELOW/
 **https://phoenixnap.com/kb/how-to-install-a-gui-on-ubuntu**
 
 apt-get update && apt-get upgrade -y
