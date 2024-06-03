@@ -1,0 +1,14 @@
+************/before installing any GUI panel, --PERMIT ROOT LOGIN (NOT required, if new superuser works AT ADMIN LEVEL)*************
+**step 1-***
+sudo nano /etc/ssh/sshd_config 
+(1) If you want to set up “root” ec2 user password, find  “PermitRootLogin” parameter and change its value from “prohibit-password” to “yes“
+(2) uncomment PasswordAuthentication yes         save ctrl O, exit ctrl X
+service ssh restart 
+**STEP 2-  sudo passwd root 
+
+**TO AVOID ROOT LOGIN, CREATE NEW USER **
+
+adduser newusername
+usermod -aG sudo newusername
+su - newusername
+sudo ls -la /root   (ENTER PWD and check if it works, then start virtualmin under it. first command as root user back, second script with new user) 
